@@ -1,6 +1,7 @@
 """Define the model."""
 
 import tensorflow as tf
+import numpy as np
 
 
 def build_model(mode, inputs, params):
@@ -19,8 +20,8 @@ def build_model(mode, inputs, params):
 
     if params.model_version == 'lstm':
         # Get word embeddings for each token in the sentence
-        embeddings = tf.get_variable(name="embeddings", dtype=tf.float32,
-                shape=[params.vocab_size, params.embedding_size])
+        embed = np.genfromtxt("/afs/.ir.stanford.edu/users/c/a/capan/CS224N/finalProject/funnyReviewPrediction/nlp_GG2/data/small/embeddings.csv", delimiter=',')
+        embeddings = tf.constant(embed, name="embeddings", dtype = tf.float32)
         sentence = tf.nn.embedding_lookup(embeddings, sentence)
 
         # Apply LSTM over the embeddings
