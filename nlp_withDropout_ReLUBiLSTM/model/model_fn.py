@@ -19,8 +19,10 @@ def build_model(mode, inputs, params, is_training):
 
     if params.model_version == 'lstm':
         # Get word embeddings for each token in the sentence
-        embeddings = tf.get_variable(name="embeddings", dtype=tf.float32,
-                shape=[params.vocab_size, params.embedding_size])
+        
+        # Get word embeddings for each token in the sentence
+        embed = np.genfromtxt("/afs/.ir.stanford.edu/users/c/a/capan/CS224N/finalProject/funnyReviewPrediction/nlp_GG2/data/small/embeddings.csv", delimiter=',')
+        embeddings = tf.constant(embed, name="embeddings", dtype = tf.float32)
         sentence = tf.nn.embedding_lookup(embeddings, sentence)
         
         sentence = tf.layers.dense(sentence, 25, activation = tf.nn.relu)
