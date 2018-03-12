@@ -22,7 +22,7 @@ def build_model(mode, inputs, params, is_training):
         # Get word embeddings for each token in the sentence
         
         # Get word embeddings for each token in the sentence
-        embed = np.genfromtxt("/afs/.ir.stanford.edu/users/c/a/capan/CS224N/finalProject/funnyReviewPrediction/nlp_GG2/data/small/embeddings.csv", delimiter=',')
+        embed = np.genfromtxt("/afs/.ir.stanford.edu/users/c/a/capan/CS224N/finalProject/funnyReviewPrediction/nlp_withDropout_ReLUBiLSTM/data/small/embeddings.csv", delimiter=',')
         embeddings = tf.constant(embed, name="embeddings", dtype = tf.float32)
         sentence = tf.nn.embedding_lookup(embeddings, sentence)
         
