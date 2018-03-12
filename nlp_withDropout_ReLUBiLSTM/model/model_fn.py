@@ -1,6 +1,7 @@
 """Define the model."""
 
 import tensorflow as tf
+import numpy as np
 
 
 def build_model(mode, inputs, params, is_training):
