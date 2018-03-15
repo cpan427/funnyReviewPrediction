@@ -49,7 +49,7 @@ def build_model(mode, inputs, params, is_training):
             #s[:,w,:] = tf.matmul( u, v )
         
         scores = tf.stack(s, axis=1)
-        attention_scores = tf.exp(scores)/tf.reduce_sum(tf.exp(scores), axis =1, keepdims =True)
+        attention_scores = tf.exp(scores)/tf.reduce_sum(tf.exp(scores), axis =1, keep_dims =True)
         # (m, Tx, emb)
         
         context = tf.multiply(output, attention_scores)
