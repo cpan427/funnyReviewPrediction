@@ -4,6 +4,7 @@ import re
 import random as rand
 
 pattern = re.compile('\n')
+noPunc = re.compile('[\\\/?.!\'\",]')
 
 print ("Starting...")
 
@@ -32,6 +33,7 @@ excluded = 0
 print ("Looking at sentences")
 
 sentLens = []
+funnyDist = []
 
 def chooseBatch(wordsTest, revsTest, wordsDev, revsDev, wordsTrain, revsTrain):
 	num = rand.random()
@@ -48,11 +50,13 @@ for i in range(len(text)):
 	doneSent = False
 	doneLab = False
 	try:
-		wrd = str(text[i].encode('ascii'))
+		wrd = str(text[i].encode('ascii').decode('ascii'))
 		wrd = re.sub(pattern, '', wrd)
+		wrd = re.sub(noPunc, '', wrd)
 
 		sent = wrd.split(" ")
-		if (len(sent) <= 300):
+		if (len(sent) <= 50):
+			#print (len(sent))
 			sentLens.append(len(sent))
 
 			words, revs, whichSet = chooseBatch(wordsTest, revsTest, wordsDev, revsDev, wordsTrain, revsTrain)
@@ -70,6 +74,7 @@ for i in range(len(text)):
 			ans = 0
 			if (fun[i] > 0):
 				ans = 1
+			funnyDist.append(ans)
 			revs.write(str(ans) + "\n")
 			
 			if (whichSet == 0):
@@ -93,3 +98,4 @@ print ("Number of rows for test:", succTestCount, succTestCountLab)
 print ("Number of excluded (long and non-ASCII and non English) reviews:", excluded)
 print ("Total Number of reviews included", (len(text) - excluded))
 print (np.percentile(sentLens,[0, 25, 50, 75, 80, 90, 95, 100]))
+print (np.percentile(funnyDist,[0, 25, 50, 75, 80, 90, 95, 100]))
