@@ -3,8 +3,8 @@ import numpy as np
 import re
 import random as rand
 
-pattern = re.compile('\n')
-noPunc = re.compile('[\\\/?.!\'\",]')
+pattern = re.compile('\\n')
+noPunc = re.compile('[@#$%^&*(){\\\/?.!\'\",]:-')
 
 print ("Starting...")
 
@@ -51,17 +51,22 @@ for i in range(len(text)):
 	doneLab = False
 	try:
 		wrd = str(text[i].encode('ascii').decode('ascii'))
-		wrd = re.sub(pattern, '', wrd)
-		wrd = re.sub(noPunc, '', wrd)
+		wrd = wrd.rstrip()
+		
+		#wrd = wrd.replace('\n', '')
+		#wrd = re.sub(pattern, ' ', wrd)
+		wrd = wrd.lower()
+		wrd = wrd.replace('\'', '')
+		wrd = re.sub('[^0-9a-zA-Z]+', ' ', wrd)
 
 		sent = wrd.split(" ")
 		if (len(sent) <= 50):
-			#print (len(sent))
+			if (i % 10000 == 0):
+				print (wrd)
 			sentLens.append(len(sent))
 
 			words, revs, whichSet = chooseBatch(wordsTest, revsTest, wordsDev, revsDev, wordsTrain, revsTrain)
-			#if ("\n" in wrd):
-			#	print (wrd)
+			#print (wrd)
 			words.write(wrd + "\n")
 			if (whichSet == 0):
 				succTestCount += 1
